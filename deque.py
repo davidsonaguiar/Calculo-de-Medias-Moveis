@@ -62,8 +62,8 @@ class Deque:
   def remove_first(self):
     if self.is_empty():
       raise Exception("Deque is empty")
-    
-    if self._size - 1 == self._capacity // 4 and self._capacity >= 10:
+        
+    if (self._size - 1 == self._capacity // 4) and (self._capacity // 2 >= 5):
       self._resize(self._capacity // 2)
       
     item = self.first()
@@ -134,7 +134,9 @@ class Deque:
     return item
 
   def _resize(self, new_capacity):
+
     new_items = [None] * new_capacity
+    self._capacity = new_capacity
     index = 0
   
     while self._size > 0:
