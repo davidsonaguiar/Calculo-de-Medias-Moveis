@@ -34,9 +34,11 @@ class Deque:
 
       
   def add_first(self, item):
-    if self.is_full():
-      raise Exception("Deque is full")
 
+    if self.is_full():
+      self._resize(2 * self._capacity)
+
+    
     if self.is_empty():
       self._items[0] = item
       self._index_first = 0
@@ -44,10 +46,10 @@ class Deque:
       self._size += 1
       return
 
+      
     if self._index_first == 0:
       self._index_first = self._capacity - 1
       self._items[self._index_first] = item
-      self._index_last = 0
       self._size += 1
       return
     
@@ -60,12 +62,14 @@ class Deque:
   def remove_first(self):
     if self.is_empty():
       raise Exception("Deque is empty")
+    
+    if self._size - 1 == self._capacity // 4 and self._capacity >= 10:
+      self._resize(self._capacity // 2)
       
     item = self.first()
     self._items[self._index_first] = None
     
     if self._size == 1:
-      print("Entrou aqui")
       self._index_first = None
       self._index_last = None
       self._size = 0
@@ -83,7 +87,7 @@ class Deque:
   
   def add_last(self, item):
     if self.is_full():
-      raise Exception("Deque is full")
+      self._resize(2 * self._capacity)
 
     if self.is_empty():
       self._items[0] = item
@@ -107,6 +111,9 @@ class Deque:
   def remove_last(self):
     if self.is_empty():
       raise Exception("Deque is empty")
+    
+    if self._size - 1 == self._capacity // 4 and self._capacity // 2 >= 5:
+      self._resize(self._capacity // 2)	
       
     item = self.last()
     self._items[self._index_last] = None
@@ -114,7 +121,7 @@ class Deque:
     if self._size == 1:
       self._index_first = None
       self._index_last = None
-      self._size -= 0
+      self._size -= 1
       return item
     
     if self._index_last == 0:
@@ -125,3 +132,18 @@ class Deque:
     self._index_last -= 1
     self._size -= 1
     return item
+
+  def _resize(self, new_capacity):
+    new_items = [None] * new_capacity
+    index = 0
+  
+    while self._size > 0:
+      first = self.remove_first()
+      new_items[index] = first
+      index += 1
+    
+    self._items = new_items
+    self._capacity = new_capacity
+    self._size = index
+    self._index_first = 0
+    self._index_last = self._size - 1
