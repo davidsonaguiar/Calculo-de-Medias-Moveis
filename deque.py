@@ -149,3 +149,8 @@ class Deque:
     self._size = index
     self._index_first = 0
     self._index_last = self._size - 1
+
+
+  def print(self):
+    print(self._items)
+ 

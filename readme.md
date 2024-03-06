@@ -160,8 +160,8 @@ Veja abaixo como a class Deque ficou:
   def remove_first(self):
     if self.is_empty():
       raise Exception("Deque is empty")
-    
-    if self._size - 1 == self._capacity // 4 and self._capacity >= 10:
+        
+    if (self._size - 1 == self._capacity // 4) and (self._capacity // 2 >= 5):
       self._resize(self._capacity // 2)
       
     item = self.first()
@@ -232,7 +232,9 @@ Veja abaixo como a class Deque ficou:
     return item
 
   def _resize(self, new_capacity):
+
     new_items = [None] * new_capacity
+    self._capacity = new_capacity
     index = 0
   
     while self._size > 0:
@@ -245,6 +247,11 @@ Veja abaixo como a class Deque ficou:
     self._size = index
     self._index_first = 0
     self._index_last = self._size - 1
+
+
+  def print(self):
+    print(self._items)
+ 
 
 ```
 
