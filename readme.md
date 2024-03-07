@@ -257,7 +257,7 @@ Veja abaixo como a class Deque ficou:
 ```
 ## Anotação Big O (Deque)
 
-Como dito no início, foi adicionado o index do primeiro elemento e do último e o tamanho do deque, eliminando a necessidade de loops para percorrer os elementos do deque no momento de adicionar, remover e mostrar elementos, tornando as funcões O(1), porém há o caso de aumento e diminuicão da capacidade do deque nos caso de deque cheio e deque muito pequeno, nesses caso será usado loop para realocar e organizar os elementos no deque, para essa situação a anotação seroa O(n).
+Como mencionado anteriormente, ao adicionar os índices do primeiro e último elementos, juntamente com o tamanho do deque, conseguimos eliminar a necessidade de loops ao adicionar, remover e acessar elementos do deque, o que torna essas operações O(1). No entanto, é importante notar que há casos em que o deque precisa redimensionar sua capacidade, especialmente quando está cheio ou muito pequeno. Nessas situações, um loop é utilizado para realocar e organizar os elementos no deque, resultando em uma complexidade de O(n) para essas operações.
 
 ## Buscar entender o problema de cálculo de médias moveis
 [Moving Average (MA): Purpose, Uses, Formula, and Examples](https://www.investopedia.com/terms/m/movingaverage.asp)
@@ -290,3 +290,7 @@ def moving_average(input_list, k):
   return deque.items()
   
 ```
+
+## Anotação Big O (Cálculo da média móvel)
+
+Como observado na análise da notação Big O do Deque, nos casos em que há a necessidade de redimensionar a capacidade do deque, a complexidade se torna O(n). No entanto, no cálculo da média móvel, há um loop adicional, o que aumenta a complexidade para O(n^2). Isso ocorre porque, além do loop que itera sobre os elementos da lista de entrada, há operações adicionais dentro do loop que envolvem a manipulação do deque, aumentando a complexidade total.
