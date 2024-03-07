@@ -56,9 +56,11 @@ Comecei criando o construtor da seguinte forma:
   class Deque:
 
     def __init__(self):
-      self._capacity = 5
-      self._items = [None] * self._capacity
-      self._first = None
+    self._capacity = 5
+    self._items = [None] * self._capacity
+    self._size = 0
+    self._index_first = None
+    self._index_last = None
 
 ```
 
@@ -253,7 +255,9 @@ Veja abaixo como a class Deque ficou:
     print(self._items)
  
 ```
+## Anotação Big O (Deque)
 
+Como dito no início, foi adicionado o index do primeiro elemento e do último e o tamanho do deque, eliminando a necessidade de loops para percorrer os elementos do deque no momento de adicionar, remover e mostrar elementos, tornando as funcões O(1), porém há o caso de aumento e diminuicão da capacidade do deque nos caso de deque cheio e deque muito pequeno, nesses caso será usado loop para realocar e organizar os elementos no deque, para essa situação a anotação seroa O(n).
 
 ## Buscar entender o problema de cálculo de médias moveis
 [Moving Average (MA): Purpose, Uses, Formula, and Examples](https://www.investopedia.com/terms/m/movingaverage.asp)
