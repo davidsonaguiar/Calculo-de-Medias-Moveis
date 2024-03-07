@@ -1,8 +1,11 @@
 class Deque:
 
-  def __init__(self):
-    self._capacity = 5
-    self._items = [None] * self._capacity
+  def __init__(self,  capacity):
+    if capacity < 2:
+      raise Exception("Capacity must be at least 2")
+    self._capacity_init = capacity
+    self._capacity = capacity
+    self._items = [None] * capacity
     self._size = 0
     self._index_first = None
     self._index_last = None
@@ -32,7 +35,11 @@ class Deque:
 
     return self._items[self._index_last]
 
-      
+
+  def items(self):
+    return self._items
+  
+
   def add_first(self, item):
 
     if self.is_full():
@@ -63,7 +70,7 @@ class Deque:
     if self.is_empty():
       raise Exception("Deque is empty")
         
-    if (self._size - 1 == self._capacity // 4) and (self._capacity // 2 >= 5):
+    if (self._size - 1 == self._capacity // 4) and (self._capacity // 2 >= self._capacity_init):
       self._resize(self._capacity // 2)
       
     item = self.first()
@@ -112,7 +119,7 @@ class Deque:
     if self.is_empty():
       raise Exception("Deque is empty")
     
-    if self._size - 1 == self._capacity // 4 and self._capacity // 2 >= 5:
+    if (self._size - 1) == (self._capacity // 4) and( self._capacity // 2) >= self._capacity_init:
       self._resize(self._capacity // 2)	
       
     item = self.last()
