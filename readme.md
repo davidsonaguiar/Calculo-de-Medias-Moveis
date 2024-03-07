@@ -252,9 +252,37 @@ Veja abaixo como a class Deque ficou:
   def print(self):
     print(self._items)
  
-
 ```
 
 
 ## Buscar entender o problema de cálculo de médias moveis
-2.1 [Moving Average (MA): Purpose, Uses, Formula, and Examples](https://www.investopedia.com/terms/m/movingaverage.asp)
+[Moving Average (MA): Purpose, Uses, Formula, and Examples](https://www.investopedia.com/terms/m/movingaverage.asp)
+
+## Solução
+
+```
+def moving_average(input_list, k):
+  deque = Deque()
+  for i in range(len(input_list)):
+    if i == 0:
+      deque.add_last(None)
+      deque.add_last(input_list[i])
+      continue
+
+    if (i + 1) < k:
+      last = deque.remove_last()
+      deque.add_last(None)
+      deque.add_last(last + input_list[i])
+      continue
+
+    last = deque.remove_last()
+    sum_step = last + input_list[i]
+    deque.add_last(sum_step / 3)
+
+    if i < (len(input_list) - 1):
+      del_element = input_list[i - (k - 1)]
+      deque.add_last(sum_step - del_element)
+
+  return deque.items()
+  
+```
