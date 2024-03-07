@@ -1,7 +1,7 @@
 from deque import Deque
 
 def moving_average(input_list, k):
-  deque = Deque()
+  deque = Deque(len(input_list))
   for i in range(len(input_list)):
     if i == 0:
       deque.add_last(None)

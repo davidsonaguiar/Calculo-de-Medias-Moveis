@@ -1,6 +1,7 @@
 from deque import Deque
+from moving_average import moving_average
 
-deque = Deque()
+deque = Deque(10)
 
 print("Test 1 - Add first")
 
@@ -41,3 +42,11 @@ for i in range(10):
 
 print(deque.size()) # 0
 print(deque.is_empty()) # True
+
+
+list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+list2 = [120, 130, 150, 140, 160, 170, 180, 200, 190, 210]
+result = moving_average(list, 3)
+result2 = moving_average(list2, 3)
+print(result)
+print(result2)
