@@ -58,23 +58,22 @@ Comecei criando o construtor da seguinte forma:
     def __init__(self):
     self._capacity = 5
     self._items = [None] * self._capacity
-    self._size = 0
     self._index_first = None
-    self._index_last = None
 
 ```
 
 Depois que comecei a criar os metódos de inserir e remover, sentir necessidade de adicionar mais alguns atributos:
 
 ```
-  class Deque:
-
-    def __init__(self):
-      self._capacity = 5
-      self._items = [None] * self._capacity
-      self._first = None
-      self._last = None
-      self._size = 0
+  def __init__(self,  capacity):
+    if capacity < 2:
+      raise Exception("Capacity must be at least 2")
+    self._capacity_init = capacity
+    self._capacity = capacity
+    self._items = [None] * capacity
+    self._size = 0
+    self._index_first = None
+    self._index_last = None
 ```
 
 Em seguida criei os seguintes metodos:
@@ -100,9 +99,12 @@ Veja abaixo como a class Deque ficou:
 ```
   class Deque:
 
-  def __init__(self):
-    self._capacity = 5
-    self._items = [None] * self._capacity
+  def __init__(self,  capacity):
+    if capacity < 2:
+      raise Exception("Capacity must be at least 2")
+    self._capacity_init = capacity
+    self._capacity = capacity
+    self._items = [None] * capacity
     self._size = 0
     self._index_first = None
     self._index_last = None
@@ -132,7 +134,11 @@ Veja abaixo como a class Deque ficou:
 
     return self._items[self._index_last]
 
-      
+
+  def items(self):
+    return self._items
+  
+
   def add_first(self, item):
 
     if self.is_full():
@@ -163,7 +169,7 @@ Veja abaixo como a class Deque ficou:
     if self.is_empty():
       raise Exception("Deque is empty")
         
-    if (self._size - 1 == self._capacity // 4) and (self._capacity // 2 >= 5):
+    if (self._size - 1 == self._capacity // 4) and (self._capacity // 2 >= self._capacity_init):
       self._resize(self._capacity // 2)
       
     item = self.first()
@@ -212,7 +218,7 @@ Veja abaixo como a class Deque ficou:
     if self.is_empty():
       raise Exception("Deque is empty")
     
-    if self._size - 1 == self._capacity // 4 and self._capacity // 2 >= 5:
+    if (self._size - 1) == (self._capacity // 4) and( self._capacity // 2) >= self._capacity_init:
       self._resize(self._capacity // 2)	
       
     item = self.last()
@@ -264,6 +270,8 @@ Como mencionado anteriormente, ao adicionar os índices do primeiro e último el
 
 ## Solução
 
+Inicialmente a solução ficou da seguinte forma:
+
 ```
 def moving_average(input_list, k):
   deque = Deque()
@@ -290,7 +298,34 @@ def moving_average(input_list, k):
   return deque.items()
   
 ```
+Em seguida para melhorar o desempenho do algoritmo, modifiquei o deque para receber a capacidade inicial, com isso, não ocorrerá o loop para aumento da capacidade do deque (resize), pois o deque já começará com o tamanho ideal.
+
+```
+def moving_average(input_list, k):
+  deque = Deque(len(input_list))
+  for i in range(len(input_list)):
+    if i == 0:
+      deque.add_last(None)
+      deque.add_last(input_list[i])
+      continue
+
+    if (i + 1) < k:
+      last = deque.remove_last()
+      deque.add_last(None)
+      deque.add_last(last + input_list[i])
+      continue
+
+    last = deque.remove_last()
+    sum_step = last + input_list[i]
+    deque.add_last(sum_step / 3)
+
+    if i < (len(input_list) - 1):
+      del_element = input_list[i - (k - 1)]
+      deque.add_last(sum_step - del_element)
+
+  return deque.items()
+```
 
 ## Anotação Big O (Cálculo da média móvel)
 
-Como observado na análise da notação Big O do Deque, nos casos em que há a necessidade de redimensionar a capacidade do deque, a complexidade se torna O(n). No entanto, no cálculo da média móvel, há um loop adicional, o que aumenta a complexidade para O(n^2). Isso ocorre porque, além do loop que itera sobre os elementos da lista de entrada, há operações adicionais dentro do loop que envolvem a manipulação do deque, aumentando a complexidade total.
+Como observado na análise da notação Big O do Deque, nos casos em que há a necessidade de redimensionar a capacidade, a complexidade pode se tornar O(n). No cálculo da média móvel, é informada a capacidade do deque necessário para realizar o cálcula sem a necessidade de redimencionar, porém para o cálculo da média móvel, foi utilizado um loop que percorre toda a lista, tornando a solução O(n).
